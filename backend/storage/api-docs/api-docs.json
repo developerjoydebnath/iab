@@ -1,0 +1,640 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Islamic Andolon Project API",
+        "description": "API documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mobile",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "mobile": {
+                                        "type": "string",
+                                        "example": "01712345678"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "operationId": "d764dd091cc4494ae0baf360b03319f3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "mobile",
+                                    "password",
+                                    "password_confirmation",
+                                    "seat_id",
+                                    "division_id",
+                                    "district_id",
+                                    "upazila_id",
+                                    "union_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "mobile": {
+                                        "type": "string",
+                                        "example": "01712345678"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    },
+                                    "seat_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "division_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "district_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "upazila_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "union_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Optional message"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully registered"
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/auth/me": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get Current User",
+                "operationId": "f0b15943f55143d36f606a2dbd1d2366",
+                "responses": {
+                    "200": {
+                        "description": "User details"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh Token",
+                "operationId": "b2eae7a8032954d25b46c7ec6f489c68",
+                "responses": {
+                    "200": {
+                        "description": "New Token"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/divisions": {
+            "get": {
+                "tags": [
+                    "Geo"
+                ],
+                "summary": "Get all divisions",
+                "operationId": "23d829d393d8e7f336bdeaef68140dd7",
+                "responses": {
+                    "200": {
+                        "description": "List of divisions"
+                    }
+                }
+            }
+        },
+        "/api/districts": {
+            "get": {
+                "tags": [
+                    "Geo"
+                ],
+                "summary": "Get districts",
+                "operationId": "f3578d6f47e9db1b946d9d9ab4711eb2",
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "Division ID",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of districts"
+                    }
+                }
+            }
+        },
+        "/api/upazilas": {
+            "get": {
+                "tags": [
+                    "Geo"
+                ],
+                "summary": "Get upazilas",
+                "operationId": "7ab0547e76958fd85eed02e75bff6947",
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "District ID",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of upazilas"
+                    }
+                }
+            }
+        },
+        "/api/unions": {
+            "get": {
+                "tags": [
+                    "Geo"
+                ],
+                "summary": "Get unions",
+                "operationId": "f5543f67a77c44c7913084bf6e29b47d",
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "Upazila ID",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of unions"
+                    }
+                }
+            }
+        },
+        "/api/profiles": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "List all profiles",
+                "operationId": "43d12304c3e621ecce8cc9ccd4b3738e",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Create a new profile",
+                "operationId": "00abb5f24a20112b161d17e9a5c38a37",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "name",
+                                    "mobile",
+                                    "seat_id",
+                                    "division_id",
+                                    "district_id",
+                                    "upazila_id",
+                                    "union_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "mobile": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "seat_id": {
+                                        "type": "integer"
+                                    },
+                                    "division_id": {
+                                        "type": "integer"
+                                    },
+                                    "district_id": {
+                                        "type": "integer"
+                                    },
+                                    "upazila_id": {
+                                        "type": "integer"
+                                    },
+                                    "union_id": {
+                                        "type": "integer"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Profile created successfully"
+                    }
+                }
+            }
+        },
+        "/api/profiles/{id}": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Get profile details",
+                "operationId": "bdbf886f973e16c2be2a83e76a804833",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Profile ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile details"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Update profile",
+                "operationId": "c878463709815b7780e0e3b989a06bec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Profile ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "mobile": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "seat_id": {
+                                        "type": "integer"
+                                    },
+                                    "division_id": {
+                                        "type": "integer"
+                                    },
+                                    "district_id": {
+                                        "type": "integer"
+                                    },
+                                    "upazila_id": {
+                                        "type": "integer"
+                                    },
+                                    "union_id": {
+                                        "type": "integer"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Delete profile",
+                "operationId": "f1f615f4e7966b63084409a8d09eed5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Profile ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/seats": {
+            "get": {
+                "tags": [
+                    "Seats"
+                ],
+                "summary": "List all seats",
+                "operationId": "09a0c40bbde096321060e7db24676668",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Seats"
+                ],
+                "summary": "Create a new seat",
+                "operationId": "2c95763f806f23800eeca9b867af7147",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "seat_no",
+                                    "seat_name",
+                                    "candidate_name",
+                                    "area"
+                                ],
+                                "properties": {
+                                    "seat_no": {
+                                        "type": "string"
+                                    },
+                                    "seat_name": {
+                                        "type": "string"
+                                    },
+                                    "candidate_name": {
+                                        "type": "string"
+                                    },
+                                    "area": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Seat created successfully"
+                    }
+                }
+            }
+        },
+        "/api/seats/{id}": {
+            "get": {
+                "tags": [
+                    "Seats"
+                ],
+                "summary": "Get seat details",
+                "operationId": "ce05d024b00285d14e8ba4c613b1308c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Seat ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Seat details"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Seats"
+                ],
+                "summary": "Update seat",
+                "operationId": "b6acc6adda5646bb299c4a0f63a6be49",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Seat ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "seat_no": {
+                                        "type": "string"
+                                    },
+                                    "seat_name": {
+                                        "type": "string"
+                                    },
+                                    "candidate_name": {
+                                        "type": "string"
+                                    },
+                                    "area": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Seat updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Seats"
+                ],
+                "summary": "Delete seat",
+                "operationId": "d030c02dbd229750cf4ea0a6a0cf3f33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Seat ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authentication APIs"
+        },
+        {
+            "name": "Geo",
+            "description": "Geo"
+        },
+        {
+            "name": "Profiles",
+            "description": "Profiles"
+        },
+        {
+            "name": "Seats",
+            "description": "Seats"
+        }
+    ]
+}
