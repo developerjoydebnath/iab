@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-noto-sans-bengali: 'Noto Sans Bengali', sans-serif;
-  --font-hind-siliguri: 'Hind Siliguri', sans-serif;
+  --font-sans: 'Hind Siliguri', sans-serif;
+  --font-bn: 'Noto Serif Bengali', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -22,15 +20,7 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Custom Font Utility Classes */
-.font-bn {
-  font-family: var(--font-noto-sans-bengali);
-}
-
-.font-sans {
-  font-family: var(--font-hind-siliguri);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
+.islamic-pattern {
+  background-color: #006a4e;
+  background-image: url("/images/arabesque.png");
 }

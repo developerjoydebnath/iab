@@ -35,7 +35,7 @@ export function AboutSection() {
           <h2 className="font-bn text-4xl md:text-5xl font-bold text-emerald-900 mb-4">
             আমাদের সম্পর্কে
           </h2>
-          <p className="text-xl text-emerald-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-emerald-700 max-w-3xl mx-auto leading-relaxed">
             ইসলামী আন্দোলন বাংলাদেশ একটি গণতান্ত্রিক, শান্তিপূর্ণ ও মানবকল্যাণমূলক রাজনৈতিক দল।
             আমরা বিশ্বাস করি সত্য ও ন্যায়ের পথে চললেই দেশের প্রকৃত উন্নয়ন সম্ভব।
           </p>
@@ -45,7 +45,7 @@ export function AboutSection() {
           {values.map((value, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-2 border-emerald-100"
+              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-2 border-emerald-100"
             >
               <div className={`inline-flex p-4 rounded-xl ${value.color} mb-6`}>
                 <value.icon size={32} />
@@ -61,12 +61,12 @@ export function AboutSection() {
         </div>
 
         {/* Mission Statement */}
-        <div className="bg-gradient-to-br from-emerald-700 to-green-700 rounded-3xl p-12 md:p-16 text-white shadow-2xl">
+        <div className="bg-gradient-to-br islamic-pattern from-emerald-700 to-green-700 rounded-3xl p-12 md:p-16 text-white shadow-2xl">
           <div className="max-w-4xl mx-auto text-center">
             <h3 className="font-bn text-3xl md:text-4xl font-bold mb-6">
               আমাদের অঙ্গীকার
             </h3>
-            <p className="text-xl md:text-2xl leading-relaxed mb-8 text-emerald-50">
+            <p className="text-lg sm:text-xl md:text-2xl leading-relaxed mb-8 text-emerald-50">
               "আমরা প্রতিশ্রুতিবদ্ধ একটি ন্যায়ভিত্তিক, দুর্নীতিমুক্ত ও সমৃদ্ধ বাংলাদেশ গড়তে।
               যেখানে প্রতিটি নাগরিক পাবে তার মৌলিক অধিকার, সম্মান ও সুযোগ।
               আমরা কাজ করবো জনগণের কল্যাণে, দেশের উন্নয়নে এবং ইসলামী মূল্যবোধ সমুন্নত রাখতে।"

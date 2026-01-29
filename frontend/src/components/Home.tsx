@@ -12,12 +12,12 @@ export function Home() {
     <div className="min-h-screen bg-white">
       <HeroSection />
       <CountdownSection />
+      <SupporterFormSection />
       <StatsSection />
       <AboutSection />
       {/* <ActivitiesSection /> */}
       <WhyVoteSection />
       <CandidatesSection />
-      <SupporterFormSection />
       <Footer />
     </div>
   );

@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
-import { HandFanIcon } from './HandFanIcon';
+import { Link } from 'react-router';
 
 export function Footer() {
   // Smooth scroll handler
@@ -12,14 +12,14 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-900 text-white">
+    <footer className="bg-gradient-to-br islamic-pattern from-emerald-900 via-emerald-800 to-green-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* About */}
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="bg-white p-2 rounded-lg">
-                <HandFanIcon className="w-8 h-8 text-emerald-700" />
+                <img src="/images/logo-2.png" alt="Logo" className='h-12 w-12 min-h-12 min-w-12' />
               </div>
               <div>
                 <h3 className="font-bn font-bold text-lg">ইসলামী আন্দোলন</h3>
@@ -27,20 +27,21 @@ export function Footer() {
               </div>
             </div>
             <p className="text-emerald-100 leading-relaxed mb-6">
-              সত্য ও ন্যায়ের পথে এগিয়ে চলা একটি গণতান্ত্রিক রাজনৈতিক দল।
-              দেশ ও জনগণের সেবায় নিবেদিত।
+              ইসলামী আন্দোলন বাংলাদেশ —
+              যারা ইনসাফ কায়েম ও শোষণমুক্ত
+              একটি উন্নত রাষ্ট্র গড়তে বদ্ধপরিকর।
             </p>
             <div className="flex gap-3">
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
+              <a href="https://www.facebook.com/iab87" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
+              <a href="https://x.com/IAB_1987" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
+              <a href="https://www.youtube.com/islamiandolanbd" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
                 <Youtube size={20} />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
+              <a href="https://www.instagram.com/iab.official" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors">
                 <Instagram size={20} />
               </a>
             </div>
@@ -56,11 +57,6 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#activities" onClick={(e) => handleNavClick(e, '#activities')} className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
-                  <span>→</span> কার্যক্রম
-                </a>
-              </li>
-              <li>
                 <a href="#candidates" onClick={(e) => handleNavClick(e, '#candidates')} className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
                   <span>→</span> প্রার্থীগণ
                 </a>
@@ -71,7 +67,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
+                <a
+                  href="/pdf/menifesto.pdf"
+                  download
+                  className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2"
+                >
                   <span>→</span> ম্যানিফেস্টো
                 </a>
               </li>
@@ -84,35 +84,17 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-emerald-100">
                 <MapPin className="flex-shrink-0 mt-1" size={20} />
-                <span>কেন্দ্রীয় কার্যালয়<br />ঢাকা, বাংলাদেশ</span>
+                <span>কেন্দ্রীয় কার্যালয়<br />৫৫/বি (৩য় তলা), পুরানা পল্টন, ঢাকা-১০০০</span>
               </li>
               <li className="flex items-start gap-3 text-emerald-100">
                 <Phone className="flex-shrink-0 mt-1" size={20} />
-                <span>০৯৬১২-৩৪৫৬৭৮<br />০১৭XX-XXXXXX</span>
+                <span>ফোন : ০২-৯৫৬৭১৩০<br />ফ্যাক্স : ০২-৭১৬১০৮০</span>
               </li>
               <li className="flex items-start gap-3 text-emerald-100">
                 <Mail className="flex-shrink-0 mt-1" size={20} />
-                <span>info@islamiandolon.bd<br />support@islamiandolon.bd</span>
+                <span>islamicandolanbd@gmail.com</span>
               </li>
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-bn font-bold text-xl mb-6">নিউজলেটার</h3>
-            <p className="text-emerald-100 mb-4">
-              নির্বাচনী আপডেট ও কার্যক্রমের খবর পেতে সাবস্ক্রাইব করুন
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="আপনার ইমেইল"
-                className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-emerald-200 focus:outline-none focus:border-white/40"
-              />
-              <button className="bg-white text-emerald-700 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors">
-                পাঠান
-              </button>
-            </div>
           </div>
         </div>
 
@@ -123,20 +105,20 @@ export function Footer() {
               © ২০২৬ ইসলামী আন্দোলন বাংলাদেশ। সর্বস্বত্ব সংরক্ষিত।
             </p>
             <div className="flex gap-6 text-emerald-200">
-              <a href="#" className="hover:text-white transition-colors">গোপনীয়তা নীতি</a>
+              <Link to="/privacy" className="hover:text-white transition-colors">গোপনীয়তা নীতি</Link>
               <span>|</span>
-              <a href="#" className="hover:text-white transition-colors">শর্তাবলী</a>
+              <Link to="/terms" className="hover:text-white transition-colors">শর্তাবলী</Link>
               <span>|</span>
-              <a href="#" className="hover:text-white transition-colors">সাইটম্যাপ</a>
+              <Link to="/sitemap" className="hover:text-white transition-colors">সাইটম্যাপ</Link>
             </div>
           </div>
         </div>
       </div>
 
       {/* Election Reminder */}
-      <div className="bg-amber-500 py-4">
+      <div className="bg-emerald-900 py-4">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-amber-900 font-bold text-lg">
+          <p className="text-white font-bold text-lg">
             ভোট দিন • দেশ গড়ুন • ইসলামী আন্দোলন বাংলাদেশকে জয়ী করুন
           </p>
         </div>

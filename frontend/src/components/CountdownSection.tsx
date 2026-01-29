@@ -76,7 +76,7 @@ export function CountdownSection() {
         </div>
 
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-3 bg-amber-100 text-amber-900 px-6 py-4 rounded-xl">
+          <div className="flex w-fit sm:flex-row flex-col mx-auto items-center gap-3 bg-amber-100 text-amber-900 px-6 py-4 rounded-xl">
             <Clock className="text-amber-700" size={24} />
             <span className="font-semibold text-lg">
               প্রস্তুত থাকুন - আপনার ভোট আপনার ভবিষ্যৎ নির্ধারণ করবে

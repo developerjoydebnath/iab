@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\ProfileController;
 
+use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +34,17 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
   Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
 
+// Admin Routes
+Route::group(['middleware' => ['api', 'auth:api'], 'prefix' => 'admin'], function () {
+  Route::get('users', [AdminController::class, 'getUsers']);
+  Route::get('users/{id}', [AdminController::class, 'show']);
+  Route::put('users/{id}', [AdminController::class, 'update']);
+  Route::delete('users/{id}', [AdminController::class, 'destroy']);
+  Route::get('stats', [AdminController::class, 'stats']);
+});
+
 // CRUD for Seats
+Route::get('seats/search', [SeatController::class, 'search']);
 Route::apiResource('seats', SeatController::class);
 
 // CRUD for Profiles

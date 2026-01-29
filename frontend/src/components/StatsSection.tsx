@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 export function StatsSection() {
   const [supporters, setSupporters] = useState(0);
-  const targetSupporters = 1247589; // Mock data
+  const targetSupporters = 947589; // Mock data
 
   useEffect(() => {
     // Animated counter
@@ -73,21 +73,21 @@ export function StatsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className={`${stat.bgColor} rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-2 border-transparent hover:border-emerald-300`}
+              className={`${stat.bgColor} rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-2 border-transparent hover:border-emerald-300`}
             >
               <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${stat.color} mb-6 shadow-lg`}>
-                <stat.icon className="text-white" size={32} />
+                <stat.icon className="text-white size-6 sm:size-8" />
               </div>
 
-              <div className="text-4xl md:text-5xl font-bold text-emerald-900 mb-2">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-2">
                 {stat.value}
               </div>
 
-              <div className="text-emerald-700 font-semibold text-lg">
+              <div className="text-emerald-700 font-semibold text-base sm:text-lg">
                 {stat.label}
               </div>
             </div>
@@ -98,11 +98,11 @@ export function StatsSection() {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-3 bg-emerald-100 text-emerald-800 px-6 py-3 rounded-full">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="font-semibold">লাইভ আপডেট</span>
+              <div className="min-w-3 min-h-3 h-3 w-3 bg-emerald-500 rounded-full animate-pulse" />
+              <span className="font-semibold text-left">লাইভ আপডেট</span>
             </div>
-            <span className="text-emerald-600">|</span>
-            <span>প্রতিদিন নতুন সমর্থক যুক্ত হচ্ছে</span>
+            <span className="text-emerald-600 text-left">|</span>
+            <span className='text-left'>প্রতিদিন নতুন সমর্থক যুক্ত হচ্ছে</span>
           </div>
         </div>
       </div>

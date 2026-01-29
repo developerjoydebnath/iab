@@ -86,17 +86,17 @@ export function WhyVoteSection() {
         </div>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-br from-emerald-700 to-green-700 rounded-3xl p-12 md:p-16 text-white text-center shadow-2xl">
+        <div className="bg-gradient-to-br islamic-pattern from-emerald-700 to-green-700 rounded-3xl p-8 sm:p-12 md:p-16 text-white text-center shadow-2xl">
           <h3 className="font-bn text-3xl md:text-4xl font-bold mb-6">
-            আপনার ভোটই পারে দেশকে বদলে দিতে
+            আপনার একটি ভোটই পারে দেশকে বদলে দিতে
           </h3>
-          <p className="text-xl text-emerald-50 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-emerald-50 mb-8 max-w-3xl mx-auto">
             একসাথে আমরা গড়বো একটি সুন্দর, সমৃদ্ধ ও ন্যায়ভিত্তিক বাংলাদেশ।
             আপনার সমর্থন আমাদের শক্তি, আপনার ভোট আমাদের দায়িত্ব।
           </p>
           <a
             href="#support"
-            className="inline-block bg-white text-emerald-700 px-12 py-5 rounded-full font-bold text-lg hover:bg-emerald-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+            className="inline-block bg-white text-emerald-700 px-4 sm:px-12 py-3 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-emerald-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
           >
             এখনই সমর্থক হিসেবে যুক্ত হন
           </a>

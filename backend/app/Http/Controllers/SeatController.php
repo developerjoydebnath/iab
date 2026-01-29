@@ -137,4 +137,29 @@ class SeatController extends Controller
         $seat->delete();
         return response()->json(['message' => 'Deleted successfully']);
     }
+
+    #[OA\Get(
+        path: "/api/seats/search",
+        summary: "Search seats",
+        tags: ["Seats"],
+        parameters: [
+            new OA\Parameter(name: "query", in: "query", schema: new OA\Schema(type: "string"))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: "Successful operation")
+        ]
+    )]
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $seats = Seat::query();
+
+        if ($query) {
+            $seats->where('seat_name', 'LIKE', "%{$query}%")
+                ->orWhere('seat_no', 'LIKE', "%{$query}%");
+        }
+
+        return response()->json($seats->paginate(20));
+    }
 }

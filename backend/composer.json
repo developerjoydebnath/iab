@@ -13,7 +13,8 @@
         "darkaonline/l5-swagger": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "php-open-source-saver/jwt-auth": "*"
+        "php-open-source-saver/jwt-auth": "*",
+        "phpoffice/phpspreadsheet": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -83,7 +83,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:20|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'role' => 'nullable|in:admin,user',
             'referral_id' => 'nullable|exists:users,id',
             'referral_mobile' => 'nullable|string',
             'seat_id' => 'required|exists:seats,id',
@@ -91,6 +91,7 @@ class AuthController extends Controller
             'district_id' => 'required|exists:geo_districts,id',
             'upazila_id' => 'required|exists:geo_upazilas,id',
             'union_id' => 'required|exists:geo_union_pouroshovas,id',
+            'is_volunteer' => 'nullable|boolean',
             'message' => 'nullable|string',
         ]);
 
@@ -100,10 +101,12 @@ class AuthController extends Controller
 
         DB::beginTransaction();
         try {
+            $plainPassword = Str::random(8);
             $user = User::create([
                 'name' => $request->get('name'),
                 'mobile' => $request->get('mobile'),
-                'password' => Hash::make($request->get('password')),
+                'password' => Hash::make($plainPassword),
+                'role' => $request->get('role', 'user'),
                 'referral_id' => $request->get('referral_id'),
                 'referral_mobile' => $request->get('referral_mobile'),
             ]);
