@@ -19,6 +19,7 @@ Route::get('/divisions', [GeoController::class, 'getDivisions']);
 Route::get('/districts', [GeoController::class, 'getDistricts']);
 Route::get('/upazilas', [GeoController::class, 'getUpazilas']);
 Route::get('/unions', [GeoController::class, 'getUnions']);
+Route::get('/total-users', [GeoController::class, 'totalUsers']);
 
 // Auth Routes
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {

@@ -1,9 +1,30 @@
 import { Heart, MapPin, TrendingUp, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Skeleton } from '../components/ui/skeleton';
+import api from '../lib/axios';
 
 export function StatsSection() {
-  const [supporters, setSupporters] = useState(0);
+  const [initialSupporters, setInitialSupporters] = useState<number | null>(null);
+  const [supporters, setSupporters] = useState<number | null>(null);
   const targetSupporters = 947589; // Mock data
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Initial Fetch: Divisions and Seats
+    const fetchInitial = async () => {
+      try {
+        const totalUsersRes = await api.get('/total-users');
+        setInitialSupporters(totalUsersRes?.data?.totalUsers ?? 0);
+        setSupporters(totalUsersRes?.data?.totalUsers ?? 0);
+      } catch (error) {
+        setSupporters(0);
+        console.error("Failed to fetch initial data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchInitial();
+  }, []);
 
   useEffect(() => {
     // Animated counter
@@ -24,10 +45,12 @@ export function StatsSection() {
     return () => clearInterval(timer);
   }, []);
 
+  const totalDisplay = supporters !== null && initialSupporters !== null ? (initialSupporters + supporters) : null;
+
   const stats = [
     {
       icon: Users,
-      value: supporters.toLocaleString('bn-BD'),
+      value: loading ? null : totalDisplay?.toLocaleString('bn-BD'),
       label: 'নিবন্ধিত সমর্থক',
       color: 'from-emerald-500 to-green-500',
       bgColor: 'bg-emerald-50'
@@ -84,7 +107,7 @@ export function StatsSection() {
               </div>
 
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-2">
-                {stat.value}
+                {stat.value !== null ? stat.value : <Skeleton className="h-10 w-full mx-auto" />}
               </div>
 
               <div className="text-emerald-700 font-semibold text-base sm:text-lg">

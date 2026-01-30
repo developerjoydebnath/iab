@@ -41,7 +41,7 @@ export function CountdownSection() {
             আর মাত্র কিছুদিন বাকি
           </h2>
           <p className="text-xl text-emerald-700">
-            ১৫ মার্চ, ২০২৬ - সকাল ৮:০০ টা থেকে ভোটগ্রহণ শুরু
+            ১২ ফেব্রুয়ারী, ২০২৬ - সকাল ৮:০০ টা থেকে ভোটগ্রহণ শুরু
           </p>
         </div>
 

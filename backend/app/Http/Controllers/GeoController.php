@@ -7,6 +7,7 @@ use App\Models\GeoDivision;
 use App\Models\GeoDistrict;
 use App\Models\GeoUpazila;
 use App\Models\GeoUnionPouroshova;
+use App\Models\User;
 use OpenApi\Attributes as OA;
 
 class GeoController extends Controller
@@ -82,5 +83,19 @@ class GeoController extends Controller
             $query->where('pid', $request->pid);
         }
         return response()->json($query->get());
+    }
+
+    #[OA\Get(
+        path: "/api/total-users",
+        summary: "Get total users",
+        tags: ["Geo"],
+        responses: [
+            new OA\Response(response: 200, description: "Total users count")
+        ]
+    )]
+    public function totalUsers()
+    {
+        $totalUsers = User::where('role', 'user')->count();
+        return response()->json(['totalUsers' => $totalUsers]);
     }
 }

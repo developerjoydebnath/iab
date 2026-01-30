@@ -162,12 +162,10 @@ export function SupporterFormSection() {
 
   return (
     <div id="support" className="py-20 islamic-pattern bg-gradient-to-br from-emerald-700 via-emerald-600 to-green-700 relative overflow-hidden">
-
-
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="font-bn text-4xl md:text-5xl font-bold text-white mb-4">
-            সমর্থক হিসেবে নিবন্ধন করুন
+            সমর্থক অথবা সেচ্ছাসেবক হিসেবে নিবন্ধন করুন
           </h2>
           <p className="text-xl text-emerald-50 max-w-3xl mx-auto">
             আপনার সমর্থন আমাদের শক্তি। আমাদের সাথে যুক্ত হয়ে দেশ গড়ার অংশীদার হন।

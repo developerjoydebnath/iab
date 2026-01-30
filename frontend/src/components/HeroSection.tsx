@@ -1,6 +1,6 @@
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-// import { Link } from 'react-router';
+import { Link } from 'react-router';
 
 export function HeroSection() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -54,38 +54,33 @@ export function HeroSection() {
 
           {/* Mobile Menu Links */}
           <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6">
-            <a
-              href="/#about"
-              className={`text-2xl font-bold text-white hover:text-emerald-600 transition-all duration-300 delay-150 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <Link
+              to="/about"
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-150 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               onClick={closeMenu}
             >
               আমাদের সম্পর্কে
-            </a>
-            <a
-              href="/#activities"
-              className={`text-2xl font-bold text-white hover:text-emerald-600 transition-all duration-300 delay-200 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            </Link>
+            <Link
+              to="/why-vote"
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-200 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               onClick={closeMenu}
             >
-              কার্যক্রম
-            </a>
-            <a
-              href="/#candidates"
-              className={`text-2xl font-bold text-white hover:text-emerald-600 transition-all duration-300 delay-[250ms] ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              কেন ভোট দিবেন
+            </Link>
+            <Link
+              to="/candidates"
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-[250ms] ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               onClick={closeMenu}
             >
               প্রার্থীগণ
-            </a>
-            <a
-              href="/#support"
-              className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
-                }`}
-              onClick={closeMenu}
-            >
-              সমর্থন করুন
-            </a>
+            </Link>
+            <Link to="/supporter-registration" className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}>
+              নিবন্ধন করুন
+            </Link>
           </div>
 
           {/* Social Icons */}
@@ -122,12 +117,12 @@ export function HeroSection() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="/#about" className="text-white hover:text-emerald-100 transition-colors">আমাদের সম্পর্কে</a>
-            <a href="/#activities" className="text-white hover:text-emerald-100 transition-colors">কার্যক্রম</a>
-            <a href="/#candidates" className="text-white hover:text-emerald-100 transition-colors">প্রার্থীগণ</a>
-            <a href="/#support" className="bg-white text-emerald-700 px-6 py-3 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg">
-              সমর্থন করুন
-            </a>
+            <Link to="/about" className="text-white hover:text-emerald-100 transition-colors">আমাদের সম্পর্কে</Link>
+            <Link to="/why-vote" className="text-white hover:text-emerald-100 transition-colors">কেন ভোট দিবেন</Link>
+            <Link to="/candidates" className="text-white hover:text-emerald-100 transition-colors">প্রার্থীগণ</Link>
+            <Link to="/supporter-registration" className="bg-white text-emerald-700 px-6 py-3 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg ml-2">
+              নিবন্ধন করুন
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -170,12 +165,12 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <a
-                href="#support"
+              <Link
+                to="/supporter-registration"
                 className="bg-white text-emerald-700 px-8 py-4 rounded-full font-bold hover:bg-emerald-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
               >
-                সমর্থক হিসেবে নিবন্ধন করুন
-              </a>
+                নিবন্ধন করুন
+              </Link>
               <a
                 href="#about"
                 className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all"
