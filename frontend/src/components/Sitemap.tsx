@@ -7,16 +7,15 @@ export function Sitemap() {
       title: "মূল পাতা",
       links: [
         { label: "হোম", path: "/", icon: <Home size={18} /> },
-        { label: "আমাদের সম্পর্কে", path: "/#about", icon: <Users size={18} /> },
-        { label: "কার্যক্রম", path: "/#activities", icon: <FileText size={18} /> },
-        { label: "প্রার্থীগণ", path: "/#candidates", icon: <Users size={18} /> },
-        { label: "সমর্থক নিবন্ধন", path: "/#support", icon: <Vote size={18} /> },
+        { label: "আমাদের সম্পর্কে", path: "/about", icon: <Users size={18} /> },
+        { label: "কেন ভোট দিবেন", path: "/why-vote", icon: <Users size={18} /> },
+        { label: "প্রার্থীগণ", path: "/candidates", icon: <Users size={18} /> },
+        { label: "সমর্থক নিবন্ধন", path: "/supporter-registration", icon: <Vote size={18} /> },
       ]
     },
     {
-      title: "সম্পদ ও নীতিমালা",
+      title: "নীতিমালা",
       links: [
-        { label: "ম্যানিফেস্টো", path: "/pdf/menifesto.pdf", icon: <FileText size={18} />, external: true },
         { label: "গোপনীয়তা নীতি", path: "/privacy", icon: <FileText size={18} /> },
         { label: "শর্তাবলী", path: "/terms", icon: <FileText size={18} /> },
       ]
@@ -46,19 +45,7 @@ export function Sitemap() {
               <ul className="space-y-4">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
-                    {link.external ? (
-                      <a
-                        href={link.path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 text-gray-600 hover:text-emerald-600 transition-colors group"
-                      >
-                        <span className="p-2 bg-emerald-50 rounded-lg group-hover:bg-emerald-100 transition-colors text-emerald-600">
-                          {link.icon}
-                        </span>
-                        <span className="font-medium">{link.label}</span>
-                      </a>
-                    ) : (
+                    
                       <Link
                         to={link.path}
                         className="flex items-center gap-3 text-gray-600 hover:text-emerald-600 transition-colors group"
@@ -68,7 +55,7 @@ export function Sitemap() {
                         </span>
                         <span className="font-medium">{link.label}</span>
                       </Link>
-                    )}
+                  
                   </li>
                 ))}
               </ul>

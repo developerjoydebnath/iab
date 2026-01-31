@@ -2,14 +2,6 @@ import { Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from 'luci
 import { Link } from 'react-router';
 
 export function Footer() {
-  // Smooth scroll handler
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    const element = document.querySelector(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-gradient-to-br islamic-pattern from-emerald-900 via-emerald-800 to-green-900 text-white">
@@ -52,28 +44,26 @@ export function Footer() {
             <h3 className="font-bn font-bold text-xl mb-6">দ্রুত লিংক</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#about" onClick={(e) => handleNavClick(e, '#about')} className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
+                <Link to="/about" className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
                   <span>→</span> আমাদের সম্পর্কে
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#candidates" onClick={(e) => handleNavClick(e, '#candidates')} className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
+                <Link to="/candidates" className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
                   <span>→</span> প্রার্থীগণ
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#support" onClick={(e) => handleNavClick(e, '#support')} className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
+                <Link to="/supporter-registration" className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2">
                   <span>→</span> সমর্থক নিবন্ধন
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/pdf/menifesto.pdf"
-                  download
+                <Link to="/why-vote"
                   className="text-emerald-100 hover:text-white transition-colors flex items-center gap-2"
                 >
-                  <span>→</span> ম্যানিফেস্টো
-                </a>
+                  <span>→</span> কেন ভোট দিবেন
+                </Link>
               </li>
             </ul>
           </div>

@@ -136,8 +136,12 @@ export function HeroSection() {
       </nav>
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-32">
+ 
         <div className="grid lg:grid-cols-2 gap-20 lg:gap-12 items-center">
+        <div className='col-span-full'>
+          <h1 className='text-center text-white font-black leading-tight font-bn text-5xl sm:text-6xl md:text-7xl'>পেশী শক্তি নয়, পরিবর্তন</h1>
+        </div>
           <div>
             <div className='flex lg:justify-start justify-center'>
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
@@ -146,22 +150,17 @@ export function HeroSection() {
               </div>
             </div>
 
-            <h2 className="font-bn text-center lg:text-left text-5xl md:text-[56px] font-bold text-white mb-6 leading-[1.125]">
-              এসো জনপ্রত্যাশার বাংলাদেশ গড়ি
+            <h2 className="font-bn text-center lg:text-left text-5xl md:text-7xl font-bold text-white mb-6 leading-[1.125]">
+              এসো জনপ্রত্যাশার
               <br />
-              <span className="text-emerald-200">আগামীর রাজনীতি বদলে দিব, ঘরে বসেই</span>
+              <span className="text-emerald-200">বাংলাদেশ গড়ি</span>
             </h2>
 
-            <p className="text-lg text-center max-w-xl mx-auto lg:mx-0 lg:text-left text-emerald-50 mb-8 leading-relaxed">
-              একটি জনকল্যাণমূলক রাষ্ট্র গড়তে আমরা প্রতিশ্রুতি বদ্ধ। ওদের আছে কালো টাকা আর
-              পেশি শক্তির দাপট।
-              আমাদের আছে মহান রবের আল্লাহর প্রতি
-              অবিচল বিশ্বাস। আপনার মা/বাবা, ভাই/বোন, স্ত্রী/সন্তান,
-              আত্নীয়সজন/পাড়া-পড়শীর ও বন্ধুবান্ধব সম্পর্কের কারণে
-              আপনার কথার মুল্যে তাদের কাছে অনেক্ক বেশি।
-              বন্ধু বন্ধুত্ব কারণে আপনার কথা ফেলতে পারে না।
-              আজ ঘরে বসেই আপনার ২ মিনিটের ফোন কল বদলে দিতে পারে জাতীয় নির্বাচন ২০২৬ এর ফলাফল,
-              কর‍তে পারে গেইম চেঞ্জ।।
+            <p className="text-2xl text-center max-w-xl mx-auto lg:mx-0 lg:text-left text-emerald-50 mb-8 leading-relaxed">
+              ইসলাম ও মানবতার কল্যানে হাতপাখায় ভোট দিন।
+            </p>
+            <p className="text-2xl text-center max-w-xl mx-auto lg:mx-0 lg:text-left text-emerald-50 mb-8 leading-relaxed">
+              সমর্থক ও স্বেচ্ছাসেবক হিসেবে নিবন্ধন করুন
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
@@ -171,12 +170,12 @@ export function HeroSection() {
               >
                 নিবন্ধন করুন
               </Link>
-              <a
-                href="#about"
+              <Link
+                to="/about"
                 className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all"
               >
                 আরও জানুন
-              </a>
+              </Link>
             </div>
 
             {/* Quick Stats */}
