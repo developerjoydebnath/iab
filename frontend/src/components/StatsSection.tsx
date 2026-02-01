@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Skeleton } from '../components/ui/skeleton';
 import api from '../lib/axios';
 
-export function StatsSection() {
+export function StatsSection({ refetch }: { refetch: number }) {
   const [initialSupporters, setInitialSupporters] = useState<number | null>(null);
   const [supporters, setSupporters] = useState<number | null>(null);
   const targetSupporters = 947589; // Mock data
@@ -24,7 +24,7 @@ export function StatsSection() {
       }
     };
     fetchInitial();
-  }, []);
+  }, [refetch]);
 
   useEffect(() => {
     // Animated counter
@@ -43,7 +43,7 @@ export function StatsSection() {
     }, 16);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [refetch]);
 
   const totalDisplay = supporters !== null && initialSupporters !== null ? (initialSupporters + supporters) : null;
 

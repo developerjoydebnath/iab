@@ -1,5 +1,6 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import toast from 'react-hot-toast';
+import { mutate } from 'swr';
 import api from '../lib/axios';
 import { useAuthStore } from '../store/authStore';
 import { Button } from './ui/button';
@@ -22,6 +23,7 @@ export default function GoogleLogin({ btnLabel }: { btnLabel?: string }) {
       toast.success("Congratulations! You are added as a volunteer successfully");
 
       loginStore(res.data.access_token, res.data.user);
+      mutate((url: string) => url.includes('/volunteer-count'));
     },
     onError: () => {
       toast.error("Login Failed! Please try again.");

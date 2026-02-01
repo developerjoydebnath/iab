@@ -37,7 +37,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function SupporterFormSection() {
+export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val: number) => void, refetch: number }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -142,6 +142,7 @@ export function SupporterFormSection() {
 
       setIsSubmitted(true);
       form.reset();
+      setRefetch(refetch + 1);
       setTimeout(() => setIsSubmitted(false), 5000); // Keep it visible longer so they can see the success message
     } catch (error: any) {
       if (error.response) {
