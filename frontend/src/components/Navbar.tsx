@@ -2,10 +2,11 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
-export function PageNavbar() {
+export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Handle menu open/close with animation
   const openMenu = () => {
     setMobileMenuOpen(true);
     setTimeout(() => setIsAnimating(true), 10);
@@ -16,6 +17,7 @@ export function PageNavbar() {
     setTimeout(() => setMobileMenuOpen(false), 300);
   };
 
+  // Prevent body scroll when menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -29,18 +31,17 @@ export function PageNavbar() {
 
   return (
     <>
-      {/* Full Screen Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className={`md:hidden islamic-pattern fixed inset-0 z-50 bg-gradient-to-b from-emerald-700 to-emerald-900 flex flex-col transition-all duration-300 ease-out ${isAnimating ? 'opacity-100' : 'opacity-0'
+          className={`md:hidden islamic-pattern fixed inset-0 z-50 bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col transition-all duration-300 ease-out ${isAnimating ? 'opacity-100' : 'opacity-0'
             }`}
         >
           {/* Mobile Menu Header */}
           <div className={`flex items-center justify-between px-6 py-6 transition-all duration-300 delay-100 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
             }`}>
-            <Link to="/" className="bg-white p-2 rounded-full shadow-lg h-14 w-14 flex items-center justify-center">
+            <div className="bg-white p-2 rounded-full shadow-lg h-14 w-14 flex items-center justify-center">
               <img src="/images/logo-1.png" alt="LOGO" className='h-full w-full object-contain' />
-            </Link>
+            </div>
             <button
               className="text-white hover:text-emerald-300 p-2"
               onClick={closeMenu}
@@ -53,37 +54,37 @@ export function PageNavbar() {
           <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6">
             <Link
               to="/about"
-              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-150 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-150 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
               onClick={closeMenu}
             >
               আমাদের সম্পর্কে
             </Link>
             <Link
               to="/why-vote"
-              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-200 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-200 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
               onClick={closeMenu}
             >
               কেন ভোট দিবেন
             </Link>
             <Link
               to="/candidates"
-              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-250 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-[250ms] ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
               onClick={closeMenu}
             >
               প্রার্থীগণ
             </Link>
             <Link
               to="/contact"
-              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-250 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              className={`text-2xl font-bold text-white hover:text-emerald-300 transition-all duration-300 delay-[250ms] ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
               onClick={closeMenu}
             >
               যোগাযোগ
             </Link>
-            <Link
-              to="/supporter-registration"
-              className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
-              onClick={closeMenu}
-            >
+            <Link to="/supporter-registration" className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}>
               নিবন্ধন করুন
             </Link>
           </div>
@@ -109,10 +110,9 @@ export function PageNavbar() {
         </div>
       )}
 
-      {/* Navigation */}
-      <nav className="relative islamic-pattern z-20 px-6 py-6 bg-gradient-to-r from-emerald-700 to-green-700">
+      <nav className="relative z-20 px-6 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <div className="bg-white p-2 rounded-full shadow-lg h-16 w-16 flex items-center justify-center">
               <img src="/images/logo-1.png" alt="LOGO" className='h-full w-full object-contain' />
             </div>
@@ -120,7 +120,7 @@ export function PageNavbar() {
               <h1 className="font-bn text-white text-2xl font-bold">হাতপাখায় ভোট দিন</h1>
               <p className="text-emerald-100 text-sm">ইসলামী আন্দোলন বাংলাদেশ</p>
             </div>
-          </Link>
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
@@ -143,5 +143,5 @@ export function PageNavbar() {
         </div>
       </nav>
     </>
-  );
+  )
 }

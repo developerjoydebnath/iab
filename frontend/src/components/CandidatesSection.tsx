@@ -30,6 +30,7 @@ export function CandidatesSection() {
       try {
         const seatRes = await api.get('/seats');
         const sanitizedData = seatRes?.data ? seatRes?.data?.filter((seat: Seat) => !!seat?.candidate_name) : null;
+
         setSeats(sanitizedData);
       } catch (error) {
         console.error("Failed to fetch initial data", error);
@@ -46,10 +47,10 @@ export function CandidatesSection() {
   // Filter seats based on search term
   const filteredSeats = useMemo(() => {
     if (!searchTerm.trim()) return seats;
-    
+
     const term = searchTerm.toLowerCase();
 
-    return seats.filter(seat => seat?.candidate_name !== null).filter(seat => 
+    return seats.filter(seat => seat?.candidate_name !== null).filter(seat =>
       seat.candidate_name.toLowerCase().includes(term) ||
       seat.seat_no.includes(term) ||
       seat.seat_name.toLowerCase().includes(term) ||
@@ -96,14 +97,14 @@ export function CandidatesSection() {
         <div className="mb-12 sm:mb-16">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
             {stats.map((stat, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-600 to-green-600 p-4 sm:p-6 text-white shadow-lg transform hover:scale-[1.02] transition-transform duration-300"
               >
                 {/* Decorative elements */}
                 <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-24 sm:h-24 bg-white/10 rounded-full"></div>
                 <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-14 h-14 sm:w-20 sm:h-20 bg-white/5 rounded-full"></div>
-                
+
                 <div className="relative z-10">
                   <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-2 font-bn">{stat.value}</div>
                   <div className="text-sm sm:text-base md:text-lg font-medium text-emerald-100">{stat.label}</div>
@@ -134,7 +135,7 @@ export function CandidatesSection() {
                   </span>
                 </div>
               </div>
-              
+
               {/* Clear Search Button */}
               {searchTerm && (
                 <button
@@ -146,7 +147,7 @@ export function CandidatesSection() {
                 </button>
               )}
             </div>
-            
+
             {/* Search status text for mobile */}
             <div className="mt-2 text-center sm:hidden">
               <span className="text-sm text-emerald-600">
@@ -212,8 +213,8 @@ export function CandidatesSection() {
                               return Array.isArray(parsedArea) ? (
                                 <div key={index} className="space-y-1">
                                   {parsedArea.map((item, i) => (
-                                    <div 
-                                      key={i} 
+                                    <div
+                                      key={i}
                                       className="inline-block bg-emerald-50 text-emerald-700 px-2 py-1 rounded-lg text-xs mr-1 mb-1"
                                     >
                                       {item}
@@ -283,7 +284,7 @@ export function CandidatesSection() {
               >
                 পূর্ববর্তী
               </button>
-              
+
               <div className="flex items-center space-x-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   let pageNum;
@@ -296,23 +297,22 @@ export function CandidatesSection() {
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
-                  
+
                   return (
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-medium transition-colors text-sm sm:text-base ${
-                        currentPage === pageNum
-                          ? 'bg-emerald-600 text-white'
-                          : 'text-emerald-700 hover:bg-emerald-50'
-                      }`}
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-medium transition-colors text-sm sm:text-base ${currentPage === pageNum
+                        ? 'bg-emerald-600 text-white'
+                        : 'text-emerald-700 hover:bg-emerald-50'
+                        }`}
                     >
                       {pageNum}
                     </button>
                   );
                 })}
               </div>
-              
+
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

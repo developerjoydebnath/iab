@@ -1,13 +1,11 @@
-import { Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
-import { Link } from 'react-router';
 
 export function Footer() {
 
   return (
-    <footer className="bg-gradient-to-br islamic-pattern from-emerald-900 via-emerald-800 to-green-900 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="">
+      {/*  <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
-          {/* About */}
+          
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="bg-white p-2 rounded-lg">
@@ -39,7 +37,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-bn font-bold text-xl mb-6">দ্রুত লিংক</h3>
             <ul className="space-y-3">
@@ -68,7 +65,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+     
           <div>
             <h3 className="font-bn font-bold text-xl mb-6">যোগাযোগ</h3>
             <ul className="space-y-4">
@@ -88,7 +85,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-emerald-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-emerald-200 text-center md:text-left">
@@ -103,7 +99,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Election Reminder */}
       <div className="bg-emerald-900 py-4">

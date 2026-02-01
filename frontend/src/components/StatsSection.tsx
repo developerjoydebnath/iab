@@ -57,7 +57,7 @@ export function StatsSection() {
     },
     {
       icon: MapPin,
-      value: '৩০০',
+      value: '২৫৯',
       label: 'আসনে প্রার্থী',
       color: 'from-blue-500 to-cyan-500',
       bgColor: 'bg-blue-50'

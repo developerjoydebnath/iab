@@ -319,7 +319,7 @@ export function AdminUsers() {
           <thead className="bg-gray-50 border-b border-gray-300">
             <tr>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">নাম</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">মোবাইল</th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">ইমেইল/মোবাইল</th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">ধরন</th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">নিবন্ধনের তারিখ</th>
               <th className="px-6 py-4 text-right text-sm font-semibold text-gray-600">অ্যাকশন</th>
@@ -340,9 +340,9 @@ export function AdminUsers() {
               users.map((user: any) => (
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4">{user.mobile}</td>
+                  <td className="px-6 py-4">{user.email ? user.email : user.mobile}</td>
                   <td className="px-6 py-4">
-                    {user.profile?.is_volunteer ?
+                    {user?.role === 'volunteer' ?
                       <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">স্বেচ্ছাসেবক</span> :
                       <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">সমর্থক</span>
                     }
@@ -401,8 +401,8 @@ export function AdminUsers() {
                               <p className="font-medium">{fullUserDetails.name}</p>
                             </div>
                             <div>
-                              <label className="text-sm text-gray-500">মোবাইল</label>
-                              <p className="font-medium">{fullUserDetails.mobile}</p>
+                              <label className="text-sm text-gray-500">মোবাইল/ইমেইল</label>
+                              <p className="font-medium break-all">{fullUserDetails.email ? fullUserDetails.email : fullUserDetails.mobile}</p>
                             </div>
                             <div>
                               <label className="text-sm text-gray-500">বিভাগ</label>

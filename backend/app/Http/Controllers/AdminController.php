@@ -35,7 +35,7 @@ class AdminController extends Controller
   public function getUsers(Request $request)
   {
     // Optimized query: Select only specific User fields
-    $query = User::select('id', 'name', 'mobile', 'created_at', 'role')
+    $query = User::select('id', 'name', 'mobile', 'email', 'created_at', 'role')
       ->with(['profile' => function ($q) {
         // Select only needed Profile fields
         $q->select('id', 'user_id', 'is_volunteer');
@@ -48,19 +48,14 @@ class AdminController extends Controller
     // 'volunteer': role=user AND is_volunteer=true
     // Admin users are excluded usually from this list unless specified.
 
-    $query->where('role', 'user');
+    $query->where('role', '!=', 'admin'); // Exclude admins by default
 
     if ($request->has('role_filter')) {
       $roleFilter = $request->input('role_filter');
       if ($roleFilter === 'volunteer') {
-        $query->whereHas('profile', function ($q) {
-          $q->where('is_volunteer', true);
-        });
+        $query->where('role', 'volunteer');
       } elseif ($roleFilter === 'user') {
-        // If by 'user' we mean non-volunteers
-        $query->whereHas('profile', function ($q) {
-          $q->where('is_volunteer', false);
-        });
+        $query->where('role', 'user');
       }
     }
 
@@ -69,7 +64,8 @@ class AdminController extends Controller
       $search = $request->input('search');
       $query->where(function ($q) use ($search) {
         $q->where('name', 'LIKE', "%{$search}%")
-          ->orWhere('mobile', 'LIKE', "%{$search}%");
+          ->orWhere('mobile', 'LIKE', "%{$search}%")
+          ->orWhere('email', 'LIKE', "%{$search}%");
       });
     }
 
@@ -234,5 +230,14 @@ class AdminController extends Controller
       'this_month_users' => $monthUsers,
       'division_stats' => $divisionStats
     ]);
+  }
+
+  /**
+   * Get the count of volunteers.
+   */
+  public function volunteerCount()
+  {
+    $count = User::where('role', 'volunteer')->count();
+    return response()->json(['volunteer_count' => $count]);
   }
 }

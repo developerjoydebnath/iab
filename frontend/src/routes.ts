@@ -9,6 +9,7 @@ import { AdminDashboard } from "./pages/admin/Dashboard";
 import { AdminLogin } from "./pages/admin/Login";
 import { AdminUsers } from "./pages/admin/Users";
 import { Candidates } from "./pages/Candidates";
+import { ContactPage } from "./pages/ContactPage";
 import { SupporterRegistration } from "./pages/SupporterRegistration";
 import { WhyVote } from "./pages/WhyVote";
 
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
   {
     path: "/about",
     Component: About,
+  },
+  {
+    path: "/contact",
+    Component: ContactPage,
   },
   {
     path: "/why-vote",

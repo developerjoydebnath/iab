@@ -7,6 +7,7 @@ use App\Http\Controllers\SeatController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GoogleAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,12 @@ Route::get('/districts', [GeoController::class, 'getDistricts']);
 Route::get('/upazilas', [GeoController::class, 'getUpazilas']);
 Route::get('/unions', [GeoController::class, 'getUnions']);
 Route::get('/total-users', [GeoController::class, 'totalUsers']);
+Route::get('/volunteer-count', [AdminController::class, 'volunteerCount']);
 
 // Auth Routes
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
   Route::post('login', [AuthController::class, 'login']);
+  Route::post('google', [GoogleAuthController::class, 'login']);
   Route::post('register', [AuthController::class, 'register']);
   Route::post('logout', [AuthController::class, 'logout']);
   Route::post('refresh', [AuthController::class, 'refresh']);

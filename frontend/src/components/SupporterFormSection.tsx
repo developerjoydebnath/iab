@@ -8,7 +8,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
 import { Input } from '../components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover';
-import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Textarea } from '../components/ui/textarea';
 import { cn } from '../components/ui/utils';
@@ -165,7 +164,7 @@ export function SupporterFormSection() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="font-bn text-4xl md:text-5xl font-bold text-white mb-4">
-            সমর্থক অথবা সেচ্ছাসেবক হিসেবে নিবন্ধন করুন
+            ভোটার হিসেবে নিবন্ধন করুন
           </h2>
           <p className="text-xl text-emerald-50 max-w-3xl mx-auto">
             আপনার সমর্থন আমাদের শক্তি। আমাদের সাথে যুক্ত হয়ে দেশ গড়ার অংশীদার হন।
@@ -181,7 +180,7 @@ export function SupporterFormSection() {
                 </div>
                 <h3 className="text-3xl font-bold text-emerald-900 mb-4">অভিনন্দন!</h3>
                 <p className="text-emerald-700 text-lg">
-                  আপনার নিবন্ধন সফল হয়েছে। আমাদের সাথে থাকার জন্য ধন্যবাদ। ইনশাআল্লা এবার বিজয় আমাদের এই হবে। জনপ্রত্যাশার বাংলাদেশ গড়তে সমর্থন দিয়ে পাশেই থাকবেন। এবারের লড়াই ইনসাফের লড়াই।
+                  আপনার নিবন্ধন সফল হয়েছে। আমাদের সাথে থাকার জন্য ধন্যবাদ। ইনশাআল্লাহ এবার বিজয় আমাদের এই হবে। জনপ্রত্যাশার বাংলাদেশ গড়তে সমর্থন দিয়ে পাশেই থাকবেন। এবারের লড়াই ইনসাফের লড়াই।
                 </p>
               </div>
             ) : (
@@ -299,7 +298,7 @@ export function SupporterFormSection() {
 
 
                   {/* Volunteer Status */}
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="is_volunteer"
                     render={({ field }) => (
@@ -332,7 +331,7 @@ export function SupporterFormSection() {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   {/* Geo Cascading */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
