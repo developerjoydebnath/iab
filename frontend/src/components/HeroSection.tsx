@@ -20,7 +20,7 @@ export function HeroSection() {
             <h2 className="font-bn text-center text-[40px] md:text-[52px] lg:text-7xl font-bold text-white mb-8 md:mb-10 leading-[1.125]">
               এসো জনপ্রত্যাশার বাংলাদেশ গড়ি
               <br />
-              <span className="">আগামীর রাজনীতি বদলে দিবো,
+              <span className="text-[32px] md:text-[40px] lg:text-[52px] text-amber-100">আগামীর রাজনীতি বদলে দিবো,
                 <br /> ঘরে বসে</span>
             </h2>
             <p className="text-lg md:text-xl lg:text-2xl text-center mx-auto lg:mx-0 text-emerald-50 mb-8 leading-relaxed">
@@ -33,7 +33,7 @@ export function HeroSection() {
                 to="/supporter-registration"
                 className="bg-transparent border-2 border-white text-white px-6 py-3 lg:px-8 lg:py-4 text-lg rounded-full font-bold hover:bg-white/10 transition-all"
               >
-                ভোটার হতে নিবন্ধন করুন
+                ভোটার হিসেবে নিবন্ধন করুন
               </Link>
             </div>
           </div>

@@ -33,7 +33,7 @@ export default function GoogleLogin({ btnLabel }: { btnLabel?: string }) {
   return (
     <Button onClick={() => login()} className="border bg-white h-auto px-6 py-3 lg:px-8 lg:py-4 shadow-xl rounded-full text-lg font-bold gap-2">
       <img src="/images/google.webp" alt="google" className='h-6 w-6' />
-      {btnLabel || 'Google দিয়ে স্বেচ্ছাসেবক হোন'}
+      {btnLabel || 'Signup With Google'}
     </Button>
   );
 }
