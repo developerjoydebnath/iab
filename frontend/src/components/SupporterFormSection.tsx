@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, CheckCircle, ChevronsUpDown, Phone, Send, User } from 'lucide-react';
+import { Check, CheckCircle, ChevronsUpDown, Eye, EyeOff, Lock, Phone, Send, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router';
 import * as z from 'zod';
 import { Button } from '../components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../components/ui/command';
@@ -33,11 +34,31 @@ const formSchema = z.object({
   union_id: z.string().min(1, "ইউনিয়ন নির্বাচন করুন"),
   is_volunteer: z.string(),
   message: z.string().optional(),
+  role: z.string().optional(),
+  password: z.string().optional(),
+  password_confirmation: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.role === 'volunteer') {
+    if (!data.password || data.password.length < 6) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে",
+        path: ["password"],
+      });
+    }
+    if (data.password !== data.password_confirmation) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "পাসওয়ার্ড মিলছে না",
+        path: ["password_confirmation"],
+      });
+    }
+  }
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val: number) => void, refetch: number }) {
+export function SupporterFormSection({ setRefetch, refetch, isVolunteerRegistration = false, isEmbedded = false }: { setRefetch: (val: number) => void, refetch: number, isVolunteerRegistration?: boolean, isEmbedded?: boolean }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -48,6 +69,9 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
   const [unions, setUnions] = useState<any[]>([]);
   const [seats, setSeats] = useState<any[]>([]);
   const [seatOpen, setSeatOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [searchParams] = useSearchParams();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -61,6 +85,9 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
       union_id: "",
       is_volunteer: "false",
       message: "",
+      password: "",
+      password_confirmation: "",
+      role: isVolunteerRegistration ? 'volunteer' : (searchParams.get('role') || 'user'),
     },
   });
 
@@ -136,6 +163,9 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
       const payload = {
         ...values,
         is_volunteer: values.is_volunteer === "true",
+        role: isVolunteerRegistration ? 'volunteer' : (searchParams.get('role') === 'volunteer' ? 'volunteer' : 'user'),
+        password: values.password || undefined,
+        password_confirmation: values.password_confirmation || undefined,
       };
 
       await api.post('/auth/register', payload);
@@ -160,20 +190,15 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
     }
   };
 
-  return (
-    <div id="support" className="py-20 islamic-pattern bg-gradient-to-br from-emerald-700 via-emerald-600 to-green-700 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="font-bn text-4xl md:text-5xl font-bold text-white mb-4">
-            ভোটার হিসেবে নিবন্ধন করুন
-          </h2>
-          <p className="text-xl text-emerald-50 max-w-3xl mx-auto">
-            আপনার সমর্থন আমাদের শক্তি। আমাদের সাথে যুক্ত হয়ে দেশ গড়ার অংশীদার হন।
-          </p>
-        </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white flex justify-center items-center h-full w-full rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl">
+  const content = (
+    <div className={cn(
+      "bg-white flex flex-col justify-center items-center h-full w-full rounded-3xl",
+      !isEmbedded && "p-6 sm:p-8 md:p-12 shadow-2xl",
+      isEmbedded && "p-6 sm:p-8 md:p-12 shadow-none border-none"
+    )}>
+            
+
             {isSubmitted ? (
               <div className="text-center py-20 w-full flex-1">
                 <div className="inline-flex bg-green-100 text-green-600 p-6 rounded-full mb-6">
@@ -222,6 +247,61 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
                       </FormItem>
                     )}
                   />
+
+                  {(isVolunteerRegistration || searchParams.get('role') === 'volunteer') && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem className='relative'>
+                            <FormLabel className="font-bold text-emerald-900">পাসওয়ার্ড *</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                                <Input 
+                                  type={showPassword ? "text" : "password"} 
+                                  placeholder="পাসওয়ার্ড দিন" 
+                                  className="pl-10 pr-10" 
+                                  {...field} 
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                >
+                                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                              </div>
+                            </FormControl>
+                            <FormMessage className="absolute left-0 top-full mt-1 text-xs" />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="password_confirmation"
+                        render={({ field }) => (
+                          <FormItem className='relative'>
+                            <FormLabel className="font-bold text-emerald-900">পাসওয়ার্ড নিশ্চিত করুন *</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                                <Input 
+                                  type={showPassword ? "text" : "password"} 
+                                  placeholder="পুনরায় পাসওয়ার্ড দিন" 
+                                  className="pl-10" 
+                                  {...field} 
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="absolute left-0 top-full mt-1 text-xs" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
 
                   {/* Seat */}
                   <FormField
@@ -492,7 +572,27 @@ export function SupporterFormSection({ setRefetch, refetch }: { setRefetch: (val
                 </form>
               </Form>
             )}
-          </div>
+    </div>
+    );
+
+  if (isEmbedded) {
+    return content;
+  }
+
+  return (
+    <div id="support" className="py-20 islamic-pattern bg-gradient-to-br from-emerald-700 via-emerald-600 to-green-700 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="font-bn text-4xl md:text-5xl font-bold text-white mb-4">
+            {isVolunteerRegistration ? 'স্বেচ্ছাসেবক' : (searchParams.get('role') === 'volunteer' ? 'স্বেচ্ছাসেবক' : 'ভোটার')} হিসেবে নিবন্ধন করুন
+          </h2>
+          <p className="text-xl text-emerald-50 max-w-3xl mx-auto">
+            আপনার সমর্থন আমাদের শক্তি। আমাদের সাথে যুক্ত হয়ে দেশ গড়ার অংশীদার হন।
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto">
+          {content}
         </div>
       </div>
     </div>

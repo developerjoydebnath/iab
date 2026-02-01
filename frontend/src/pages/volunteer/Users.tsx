@@ -9,21 +9,18 @@ import { Input } from '../../components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { Skeleton } from '../../components/ui/skeleton';
-import { Tabs, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { cn } from '../../components/ui/utils';
 import api from '../../lib/axios';
 import { useAuthStore } from '../../store/authStore';
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
-export function AdminUsers() {
+export function VolunteerUsers() {
   const { token } = useAuthStore();
   const [page, setPage] = useState(1);
-  const [roleTab, setRoleTab] = useState('all');
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [divisionId, setDivisionId] = useState('');
-  const [volunteerId, setVolunteerId] = useState('');
   const [districtId, setDistrictId] = useState('');
   const [upazilaId, setUpazilaId] = useState('');
   const [unionId, setUnionId] = useState('');
@@ -39,7 +36,6 @@ export function AdminUsers() {
   const [upazilas, setUpazilas] = useState<any[]>([]);
   const [unions, setUnions] = useState<any[]>([]);
   const [seats, setSeats] = useState<any[]>([]);
-  const [volunteers, setVolunteers] = useState<any[]>([]);
 
   // Debounce Search
   useEffect(() => {
@@ -53,14 +49,13 @@ export function AdminUsers() {
   // Build URL params
   const params = new URLSearchParams({
     page: page.toString(),
-    role_filter: roleTab,
+    role_filter: 'user', // Explicitly ask for users
     ...(debouncedSearch && { search: debouncedSearch }),
     ...(divisionId && { division_id: divisionId }),
     ...(districtId && { district_id: districtId }),
     ...(upazilaId && { upazila_id: upazilaId }),
     ...(unionId && { union_id: unionId }),
     ...(seatId && { seat_id: seatId }),
-    ...(volunteerId && { volunteer_id: volunteerId }),
   });
 
   // Fetch Users with SWR
@@ -69,15 +64,10 @@ export function AdminUsers() {
     fetcher
   );
 
-  const users = usersData?.data || [];
-  const meta = usersData ? { current_page: usersData.current_page, last_page: usersData.last_page, total: usersData.total } : null;
-  const loading = !usersData && !error;
-
   // Initial Geo Load
   useEffect(() => {
     api.get('/divisions').then(r => setDivisions(r.data));
     api.get('/seats').then(r => setSeats(r.data));
-    api.get('/admin/volunteers-list').then(r => setVolunteers(r.data));
   }, []);
 
   // Fetch Districts when Division changes
@@ -107,6 +97,10 @@ export function AdminUsers() {
     }
   }, [upazilaId]);
 
+  const users = usersData?.data || [];
+  const meta = usersData ? { current_page: usersData.current_page, last_page: usersData.last_page, total: usersData.total } : null;
+  const loading = !usersData && !error;
+
   const handleDelete = async (id: number) => {
     try {
       await api.delete(`/admin/users/${id}`);
@@ -134,14 +128,14 @@ export function AdminUsers() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="text-2xl font-bold text-gray-800">ব্যবহারকারী ব্যবস্থাপনা</h2>
+        <h2 className="text-2xl font-bold text-gray-800">আমার নিবন্ধিত ভোটার তালিকা</h2>
 
         {/* Search */}
-        <div className="relative w-full md:w-64">
+        <div className="relative w-full md:w-64 mt-4 md:mt-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
           <Input
             placeholder="নাম বা মোবাইল নম্বর খুঁজুন..."
-            className="pl-9"
+            className="pl-9 bg-white"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -301,7 +295,6 @@ export function AdminUsers() {
           setUpazilaId('');
           setUnionId('');
           setSeatId('');
-          setVolunteerId('');
           setSearch('');
         }}>
           <FilterX />
@@ -309,25 +302,13 @@ export function AdminUsers() {
         </Button>
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="all" onValueChange={(v) => { setRoleTab(v); setPage(1); }}>
-        <TabsList>
-          <TabsTrigger value="all">সবাই</TabsTrigger>
-          <TabsTrigger value="user">সাধারণ সমর্থক</TabsTrigger>
-          <TabsTrigger value="volunteer">স্বেচ্ছাসেবক</TabsTrigger>
-        </TabsList>
-      </Tabs>
-
       {/* Table */}
       <div className="bg-white rounded-lg shadow overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-300">
             <tr>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">নাম</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">ইমেইল/মোবাইল</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">ধরন</th>
-              {roleTab !== 'volunteer' && <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">রেফারার</th>}
-              {roleTab === 'volunteer' && <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">মোট ভোটার</th>}
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">মোবাইল</th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">নিবন্ধনের তারিখ</th>
               <th className="px-6 py-4 text-right text-sm font-semibold text-gray-600">অ্যাকশন</th>
             </tr>
@@ -338,7 +319,6 @@ export function AdminUsers() {
                 <tr key={i}>
                   <td className="px-6 py-4"><Skeleton className="h-4 w-32" /></td>
                   <td className="px-6 py-4"><Skeleton className="h-4 w-24" /></td>
-                  <td className="px-6 py-4"><Skeleton className="h-6 w-16" /></td>
                   <td className="px-6 py-4"><Skeleton className="h-4 w-24" /></td>
                   <td className="px-6 py-4 flex justify-end gap-2"><Skeleton className="h-8 w-8" /><Skeleton className="h-8 w-8" /></td>
                 </tr>
@@ -347,30 +327,7 @@ export function AdminUsers() {
               users.map((user: any) => (
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4">{user.email ? user.email : user.mobile}</td>
-                  <td className="px-6 py-4">
-                    {user?.role === 'volunteer' ?
-                      <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">স্বেচ্ছাসেবক</span> :
-                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">সমর্থক</span>
-                    }
-                  </td>
-                  {roleTab !== 'volunteer' && (
-                    <td className="px-6 py-4">
-                      {user.referrer ? (
-                        <div className="flex flex-col">
-                          <span className="font-medium text-gray-700">{user.referrer.name}</span>
-                          <span className="text-xs text-gray-500">{user.referrer.mobile}</span>
-                        </div>
-                      ) : (
-                        <span className="text-gray-400 text-xs">-</span>
-                      )}
-                    </td>
-                  )}
-                  {roleTab === 'volunteer' && (
-                    <td className="px-6 py-4 font-bold text-center text-emerald-600">
-                      {user.referrals_count || 0}
-                    </td>
-                  )}
+                  <td className="px-6 py-4">{user.mobile}</td>
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {new Date(user.created_at).toLocaleDateString('bn-BD')}
                   </td>
@@ -384,39 +341,14 @@ export function AdminUsers() {
                       </DialogTrigger>
                       <DialogContent className="max-w-2xl">
                         <DialogHeader>
-                          <DialogTitle>ব্যবহারকারীর বিস্তারিত তথ্য</DialogTitle>
+                          <DialogTitle>বিস্তারিত তথ্য</DialogTitle>
                           <DialogDescription className='hidden' />
                         </DialogHeader>
                         {loadingDetails ? (
                           <div className="grid grid-cols-2 gap-4 mt-4">
-                            <div>
-                              <Skeleton className="h-4 w-12 mb-1" />
-                              <Skeleton className="h-5 w-32" />
-                            </div>
-                            <div>
-                              <Skeleton className="h-4 w-14 mb-1" />
-                              <Skeleton className="h-5 w-28" />
-                            </div>
-                            <div>
-                              <Skeleton className="h-4 w-12 mb-1" />
-                              <Skeleton className="h-5 w-24" />
-                            </div>
-                            <div>
-                              <Skeleton className="h-4 w-10 mb-1" />
-                              <Skeleton className="h-5 w-24" />
-                            </div>
-                            <div>
-                              <Skeleton className="h-4 w-14 mb-1" />
-                              <Skeleton className="h-5 w-28" />
-                            </div>
-                            <div>
-                              <Skeleton className="h-4 w-14 mb-1" />
-                              <Skeleton className="h-5 w-28" />
-                            </div>
-                            <div className="col-span-2 bg-gray-50 p-3 rounded-lg mt-2">
-                              <Skeleton className="h-4 w-10 mb-1" />
-                              <Skeleton className="h-6 w-48" />
-                            </div>
+                             <Skeleton className="h-4 w-32 col-span-2" />
+                             <Skeleton className="h-4 w-32 col-span-2" />
+                             <Skeleton className="h-4 w-32 col-span-2" />
                           </div>
                         ) : fullUserDetails ? (
                           <div className="grid grid-cols-2 gap-4 mt-4">
@@ -425,8 +357,8 @@ export function AdminUsers() {
                               <p className="font-medium">{fullUserDetails.name}</p>
                             </div>
                             <div>
-                              <label className="text-sm text-gray-500">মোবাইল/ইমেইল</label>
-                              <p className="font-medium break-all">{fullUserDetails.email ? fullUserDetails.email : fullUserDetails.mobile}</p>
+                              <label className="text-sm text-gray-500">মোবাইল</label>
+                              <p className="font-medium">{fullUserDetails.mobile}</p>
                             </div>
                             <div>
                               <label className="text-sm text-gray-500">বিভাগ</label>
@@ -451,17 +383,8 @@ export function AdminUsers() {
                                 {fullUserDetails.profile?.seat?.seat_no} - {fullUserDetails.profile?.seat?.seat_name}
                               </p>
                             </div>
-
-                            {fullUserDetails.profile?.message && (
-                              <div className="col-span-2 mt-2">
-                                <label className="text-sm text-gray-500">বার্তা</label>
-                                <p className="text-gray-700 bg-gray-50 p-3 rounded">{fullUserDetails.profile?.message}</p>
-                              </div>
-                            )}
                           </div>
-                        ) : (
-                          <div className="text-center text-red-500">তথ্য লোড করতে ব্যর্থ হয়েছে</div>
-                        )}
+                        ) : null}
                       </DialogContent>
                     </Dialog>
 
@@ -474,9 +397,9 @@ export function AdminUsers() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>আপনি কি নিশ্চিত?</AlertDialogTitle>
+                          <AlertDialogTitle>মুছে ফেলবেন?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            এই ব্যবহারকারীকে মুছে ফেলা হলে আর পুনরুদ্ধার করা যাবে না।
+                            এটি পুনরুদ্ধার করা যাবে না।
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -505,14 +428,14 @@ export function AdminUsers() {
               disabled={meta.current_page === 1}
               onClick={() => setPage(p => p - 1)}
             >
-              আগের পৃষ্ঠা
+              আগের
             </Button>
             <Button
               variant="outline"
               disabled={meta.current_page === meta.last_page}
               onClick={() => setPage(p => p + 1)}
             >
-              পরের পৃষ্ঠা
+              পরের
             </Button>
           </div>
         </div>

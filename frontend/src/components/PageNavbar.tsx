@@ -1,8 +1,10 @@
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import { useAuthStore } from '../store/authStore';
 
 export function PageNavbar() {
+  const { isAuthenticated, user } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -79,13 +81,23 @@ export function PageNavbar() {
             >
               যোগাযোগ
             </Link>
-            <Link
-              to="/supporter-registration"
-              className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
-              onClick={closeMenu}
-            >
-              ভোটার হিসেবে নিবন্ধন করুন
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to={user?.role === 'admin' ? "/admin/dashboard" : "/volunteer/dashboard"}
+                className={`mt-4 w-full max-w-xs bg-white text-emerald-700 px-8 py-4 rounded-full font-bold hover:bg-emerald-50 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
+                onClick={closeMenu}
+              >
+                ড্যাশবোর্ড
+              </Link>
+            ) : (
+              <Link
+                to="/supporter-registration"
+                className={`mt-4 w-full max-w-xs bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-8 py-4 rounded-full font-bold hover:from-amber-500 hover:to-amber-600 transition-all duration-300 delay-300 text-center shadow-lg ${isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
+                onClick={closeMenu}
+              >
+                স্বেচ্ছাসেবক হিসেবে নিবন্ধন করুন
+              </Link>
+            )}
           </div>
 
           {/* Social Icons */}
@@ -128,9 +140,18 @@ export function PageNavbar() {
             <Link to="/why-vote" className="text-white hover:text-emerald-100 transition-colors">কেন ভোট দিবেন</Link>
             <Link to="/candidates" className="text-white hover:text-emerald-100 transition-colors">প্রার্থীগণ</Link>
             <Link to="/contact" className="text-white hover:text-emerald-100 transition-colors">যোগাযোগ</Link>
-            <Link to="/supporter-registration" className="bg-white text-emerald-700 px-6 py-3 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg ml-2">
-              ভোটার হিসেবে নিবন্ধন করুন
-            </Link>
+            {isAuthenticated ? (
+              <Link 
+                to={user?.role === 'admin' ? "/admin/dashboard" : "/volunteer/dashboard"} 
+                className="bg-white text-emerald-700 px-6 py-3 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg ml-2"
+              >
+                ড্যাশবোর্ড
+              </Link>
+            ) : (
+              <Link to="/supporter-registration" className="bg-white text-emerald-700 px-6 py-3 rounded-full font-bold hover:bg-emerald-50 transition-colors shadow-lg ml-2">
+                স্বেচ্ছাসেবক হিসেবে নিবন্ধন করুন
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

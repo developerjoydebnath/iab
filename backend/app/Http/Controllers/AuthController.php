@@ -44,9 +44,16 @@ class AuthController extends Controller
     {
         $credentials = $request->only('mobile', 'password');
 
-        if (! $token = Auth::guard('api')->attempt($credentials)) {
+        // Find user with mobile and admin/volunteer role
+        $user = User::where('mobile', $credentials['mobile'])
+            ->whereIn('role', ['admin', 'volunteer'])
+            ->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        $token = Auth::guard('api')->login($user);
 
         return $this->respondWithToken($token);
     }
@@ -82,8 +89,9 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:20|unique:users',
-            'role' => 'nullable|in:admin,user',
+            'mobile' => 'required|string|max:20',
+            'role' => 'nullable|in:admin,user,volunteer',
+            'password' => 'nullable|string|min:6|confirmed',
             'referral_id' => 'nullable|exists:users,id',
             'referral_mobile' => 'nullable|string',
             'seat_id' => 'required|exists:seats,id',
@@ -101,15 +109,39 @@ class AuthController extends Controller
 
         DB::beginTransaction();
         try {
-            $plainPassword = Str::random(8);
+            $plainPassword = $request->filled('password') ? $request->input('password') : Str::random(8);
+
+            $inputRole = $request->get('role', 'user');
+            $isVolunteer = $inputRole === 'volunteer' || $request->boolean('is_volunteer');
+            $finalRole = $inputRole === 'volunteer' ? 'volunteer' : $inputRole;
+
+            // Enforce conditional uniqueness for admin and volunteer
+            if (in_array($finalRole, ['admin', 'volunteer'])) {
+                $exists = User::where('mobile', $request->get('mobile'))
+                    ->whereIn('role', ['admin', 'volunteer'])
+                    ->exists();
+                if ($exists) {
+                    return response()->json(['mobile' => ['The mobile number is already taken by another volunteer or admin.']], 400);
+                }
+            }
             $user = User::create([
                 'name' => $request->get('name'),
                 'mobile' => $request->get('mobile'),
                 'password' => Hash::make($plainPassword),
-                'role' => $request->get('role', 'user'),
+                'role' => $finalRole,
                 'referral_id' => $request->get('referral_id'),
                 'referral_mobile' => $request->get('referral_mobile'),
             ]);
+
+            // Auto-assign referral if logged in as volunteer
+            if (Auth::guard('api')->check()) {
+                $loggedInUser = Auth::guard('api')->user();
+                if ($loggedInUser && $loggedInUser->role === 'volunteer') {
+                    $user->referral_id = $loggedInUser->id;
+                    $user->save();
+                }
+            }
+
 
             Profile::create([
                 'user_id' => $user->id,
@@ -121,6 +153,7 @@ class AuthController extends Controller
                 'upazila_id' => $request->get('upazila_id'),
                 'union_id' => $request->get('union_id'),
                 'message' => $request->get('message'),
+                'is_volunteer' => $isVolunteer ? 1 : 0,
             ]);
 
             DB::commit();

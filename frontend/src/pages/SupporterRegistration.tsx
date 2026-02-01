@@ -9,7 +9,7 @@ export function SupporterRegistration() {
   return (
     <div className="min-h-screen bg-white">
       <PageNavbar />
-      <SupporterFormSection setRefetch={setRefetch} refetch={refetch} />
+      <SupporterFormSection isEmbedded={false} setRefetch={setRefetch} refetch={refetch} isVolunteerRegistration={true} />
       <StatsSection refetch={refetch} />
       <Footer />
     </div>

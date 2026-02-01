@@ -9,8 +9,8 @@ const VolunteerCount = () => {
   // Skeleton loader
   if (isLoading) {
     return (
-      <div className="bg-emerald-50">
-        <div className="relative max-w-3xl w-full mx-auto -translate-y-20 md:-translate-y-28 lg:-translate-y-32 px-4 sm:px-6">
+      <div className="bg-emerald-50 py-20">
+        <div className="relative max-w-3xl w-full mx-auto px-4 sm:px-6">
           {/* Main Card - Skeleton */}
           <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-200">
             {/* Current Count Section - Side by side layout */}
@@ -86,8 +86,8 @@ const VolunteerCount = () => {
   const progressPercentage = (current / target) * 100;
 
   return (
-    <div className="bg-emerald-50">
-      <div className="relative max-w-3xl w-full mx-auto -translate-y-20 md:-translate-y-28 lg:-translate-y-32 px-4 sm:px-6">
+    <div className="bg-emerald-50 py-20">
+      <div className="relative max-w-3xl w-full mx-auto px-4 sm:px-6">
         {/* Main Card */}
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-200">
           {/* Current Count Section - Side by side layout */}

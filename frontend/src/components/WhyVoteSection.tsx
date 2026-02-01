@@ -1,5 +1,4 @@
 import { BookOpen, Briefcase, FileCheck, GraduationCap, Landmark, Scale, Shield, Users } from 'lucide-react';
-import { Link } from 'react-router';
 
 export function WhyVoteSection() {
   const reasons = [
@@ -95,12 +94,12 @@ export function WhyVoteSection() {
             একসাথে আমরা গড়বো একটি সুন্দর, সমৃদ্ধ ও ন্যায়ভিত্তিক বাংলাদেশ।
             আপনার সমর্থন আমাদের শক্তি, আপনার ভোট আমাদের দায়িত্ব।
           </p>
-          <Link
+          {/* <Link
             to="/supporter-registration"
             className="inline-block bg-white text-emerald-700 px-4 sm:px-12 py-3 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-emerald-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
           >
             এখনই ভোটার হিসেবে যুক্ত হন
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

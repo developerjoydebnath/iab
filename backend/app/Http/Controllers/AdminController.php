@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\GeoDivision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
 
 class AdminController extends Controller
@@ -26,6 +27,8 @@ class AdminController extends Controller
       new OA\Parameter(name: "upazila_id", in: "query", schema: new OA\Schema(type: "integer")),
       new OA\Parameter(name: "union_id", in: "query", schema: new OA\Schema(type: "integer")),
       new OA\Parameter(name: "seat_id", in: "query", schema: new OA\Schema(type: "integer")),
+      new OA\Parameter(name: "seat_id", in: "query", schema: new OA\Schema(type: "integer")),
+      new OA\Parameter(name: "volunteer_id", in: "query", schema: new OA\Schema(type: "integer")),
       new OA\Parameter(name: "search", in: "query", schema: new OA\Schema(type: "string"))
     ],
     responses: [
@@ -35,11 +38,14 @@ class AdminController extends Controller
   public function getUsers(Request $request)
   {
     // Optimized query: Select only specific User fields
-    $query = User::select('id', 'name', 'mobile', 'email', 'created_at', 'role')
-      ->with(['profile' => function ($q) {
-        // Select only needed Profile fields
-        $q->select('id', 'user_id', 'is_volunteer');
-      }]);
+    $query = User::select('id', 'name', 'mobile', 'email', 'created_at', 'role', 'referral_id')
+      ->with([
+        'profile' => function ($q) {
+          $q->select('id', 'user_id', 'is_volunteer');
+        },
+        'referrer:id,name,mobile'
+      ])
+      ->withCount('referrals');
 
     // Filter by Tab (Role)
     // 'all': everyone who is not admin? Or just role=user including volunteers?
@@ -58,6 +64,13 @@ class AdminController extends Controller
         $query->where('role', 'user');
       }
     }
+
+    // Volunteer Scoping
+    $currentUser = Auth::user();
+    if ($currentUser->role === 'volunteer') {
+      $query->where('referral_id', $currentUser->id);
+    }
+
 
     // Search Filter
     if ($request->filled('search')) {
@@ -96,6 +109,11 @@ class AdminController extends Controller
       });
     }
 
+    // Volunteer Filter
+    if ($request->filled('volunteer_id')) {
+      $query->where('referral_id', $request->volunteer_id);
+    }
+
     $users = $query->orderBy('created_at', 'desc')->paginate(10);
     return response()->json($users);
   }
@@ -122,6 +140,13 @@ class AdminController extends Controller
       'profile.union'
     ])->findOrFail($id);
 
+    // Volunteer Scoping
+    $currentUser = Auth::user();
+    if ($currentUser->role === 'volunteer' && $user->referral_id !== $currentUser->id) {
+      return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+
     return response()->json($user);
   }
 
@@ -140,6 +165,13 @@ class AdminController extends Controller
   public function update(Request $request, $id)
   {
     $user = User::findOrFail($id);
+
+    // Volunteer Scoping
+    $currentUser = Auth::user();
+    if ($currentUser->role === 'volunteer' && $user->referral_id !== $currentUser->id) {
+      return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
 
     $validated = $request->validate([
       'name' => 'required|string',
@@ -192,6 +224,13 @@ class AdminController extends Controller
   public function destroy($id)
   {
     $user = User::findOrFail($id);
+
+    // Volunteer Scoping
+    $currentUser = Auth::user();
+    if ($currentUser->role === 'volunteer' && $user->referral_id !== $currentUser->id) {
+      return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
     $user->delete(); // This will cascade delete profile if defined in DB or model event
     return response()->json(['message' => 'User deleted successfully']);
   }
@@ -210,10 +249,17 @@ class AdminController extends Controller
   )]
   public function stats()
   {
+    if (Auth::user()->role === 'volunteer') {
+      return $this->getVolunteerStats(Auth::id());
+    }
+
     $totalUsers = User::where('role', 'user')->count();
     $todayUsers = User::where('role', 'user')->whereDate('created_at', now()->today())->count();
     $weekUsers = User::where('role', 'user')->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
+    $weekUsers = User::where('role', 'user')->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
     $monthUsers = User::where('role', 'user')->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->count();
+    $totalVolunteers = User::where('role', 'volunteer')->count();
+    $todayVolunteers = User::where('role', 'volunteer')->whereDate('created_at', now()->today())->count();
 
     $divisionStats = DB::table('users')
       ->join('profiles', 'users.id', '=', 'profiles.user_id')
@@ -228,9 +274,34 @@ class AdminController extends Controller
       'today_users' => $todayUsers,
       'this_week_users' => $weekUsers,
       'this_month_users' => $monthUsers,
+      'total_volunteers' => $totalVolunteers,
+      'today_volunteers' => $todayVolunteers,
       'division_stats' => $divisionStats
     ]);
   }
+
+  /**
+   * Volunteer Dashboard Stats
+   */
+  private function getVolunteerStats($volunteerId)
+  {
+    $totalRefs = User::where('referral_id', $volunteerId)->count();
+    $todayRefs = User::where('referral_id', $volunteerId)->whereDate('created_at', now()->today())->count();
+
+    // Maybe verify if they are users or volunteers? Assuming volunteers register users.
+    // If they register other volunteers, we count them too? For now just count all referrals.
+
+    return response()->json([
+      'total_users' => $totalRefs,
+      'today_users' => $todayRefs,
+      'this_week_users' => 0, // Placeholder or implement
+      'this_month_users' => 0, // Placeholder
+      'total_volunteers' => 0,
+      'today_volunteers' => 0,
+      'division_stats' => [] // Volunteers probably don't need global division stats, or we can show stats of THEIR users by division
+    ]);
+  }
+
 
   /**
    * Get the count of volunteers.
@@ -239,5 +310,27 @@ class AdminController extends Controller
   {
     $count = User::where('role', 'volunteer')->count();
     return response()->json(['volunteer_count' => $count]);
+  }
+
+  /**
+   * Get Simple List of Volunteers for Dropdown
+   */
+  #[OA\Get(
+    path: "/api/admin/volunteers-list",
+    summary: "Get list of volunteers (id, name, mobile)",
+    tags: ["Admin"],
+    security: [["bearerAuth" => []]],
+    responses: [
+      new OA\Response(response: 200, description: "Success")
+    ]
+  )]
+  public function getVolunteersList()
+  {
+    $volunteers = User::where('role', 'volunteer')
+      ->select('id', 'name', 'mobile')
+      ->orderBy('name')
+      ->get();
+
+    return response()->json($volunteers);
   }
 }

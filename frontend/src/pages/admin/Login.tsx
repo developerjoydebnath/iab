@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Lock, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { Location, useLocation, useNavigate } from 'react-router';
 import * as z from 'zod';
+import GoogleLoginButton from '../../components/GoogleLoginButton';
 import { Button } from '../../components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../components/ui/form';
 import { Input } from '../../components/ui/input';
@@ -30,6 +31,9 @@ export function AdminLogin() {
     },
   });
 
+  const location = useLocation();
+  const state = location.state as { from?: Location };
+
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
     setError('');
@@ -44,12 +48,11 @@ export function AdminLogin() {
       const result = await response.json();
 
       if (response.ok) {
-        if (result.user.role === 'admin') {
-          login(result.access_token, result.user);
-          navigate('/admin/dashboard');
-        } else {
-          setError('Access Denied. Only admins allowed.');
-        }
+        login(result.access_token, result.user);
+        
+        // Handle redirect back to where user came from
+        const from = state?.from?.pathname || (result.user.role === 'admin' ? '/admin/dashboard' : '/volunteer/dashboard');
+        navigate(from, { replace: true });
       } else {
         setError(result.error || 'Login failed');
       }
@@ -64,7 +67,7 @@ export function AdminLogin() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">অ্যাডমিন প্রবেশ</h1>
+          <h1 className="text-2xl font-bold text-gray-900">প্রবেশ</h1>
           <p className="text-gray-500">দয়া করে আপনার ক্রেডেনশিয়াল দিয়ে লগইন করুন</p>
         </div>
 
@@ -75,7 +78,7 @@ export function AdminLogin() {
         )}
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="mobile"
@@ -115,8 +118,33 @@ export function AdminLogin() {
               className="w-full text-white bg-emerald-700 hover:bg-emerald-800"
               disabled={loading}
             >
-              {loading ? 'লগইন হচ্ছে...' : 'লগইন'}
+              {loading ? 'প্রবেশ করা হচ্ছে...' : 'প্রবেশ করুন'}
             </Button>
+
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-2 text-gray-500">অথবা</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center">
+                <GoogleLoginButton btnLabel="Google দিয়ে প্রবেশ করুন" />
+              </div>
+              <div className="flex justify-center">
+                <Button 
+                  type='button' 
+                  variant="outline" 
+                   className='w-fit border-emerald-600 text-emerald-700 hover:bg-emerald-50 rounded-full py-6 font-bold'
+                  onClick={() => navigate('/supporter-registration?role=volunteer')}
+                >
+                  স্বেচ্ছাসেবক হিসেবে নিবন্ধন করুন
+                </Button>
+              </div>
+            </div>
           </form>
         </Form>
       </div>

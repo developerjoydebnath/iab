@@ -8,8 +8,8 @@ const Contact = () => {
     window.open(url, '_blank');
   };
 
-  const handleCallClick = () => {
-    window.location.href = 'tel:+8801635232926';
+  const handleImoClick = () => {
+    window.open('https://imo.me/8801635232926', '_blank');
   };
 
   return (
@@ -143,10 +143,10 @@ const Contact = () => {
                 WhatsApp এ বার্তা পাঠান
               </button>
               <button
-                onClick={handleCallClick}
+                onClick={handleImoClick}
                 className="bg-emerald-800 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-900 transition-colors duration-200 text-lg border border-white/20"
               >
-                এখনই কল করুন
+                IMO তে বার্তা পাঠান
               </button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Activity, BarChart3, Calendar, Users } from 'lucide-react';
+import { Activity, Users } from 'lucide-react';
 import useSWR from 'swr';
 import { Skeleton } from '../../components/ui/skeleton';
 import api from '../../lib/axios';
@@ -50,10 +50,10 @@ export function AdminDashboard() {
           </>
         ) : (
           <>
-            <StatCard title="আজকের যুক্ত" value={stats?.today_users} icon={Activity} color="emerald" />
-            <StatCard title="এই সপ্তাহের যুক্ত" value={stats?.this_week_users} icon={Calendar} color="blue" />
-            <StatCard title="এই মাসের যুক্ত" value={stats?.this_month_users} icon={BarChart3} color="gray" />
+            <StatCard title="আজকের যুক্ত সমর্থক" value={stats?.today_users} icon={Activity} color="emerald" />
+            <StatCard title="আজকের যুক্ত স্বেচ্ছাসেবক" value={stats?.today_volunteers} icon={Activity} color="blue" />
             <StatCard title="মোট সর্মথক" value={stats?.total_users} icon={Users} color="amber" />
+            <StatCard title="মোট স্বেচ্ছাসেবক" value={stats?.total_volunteers} icon={Users} color="gray" />
           </>
         )}
       </div>

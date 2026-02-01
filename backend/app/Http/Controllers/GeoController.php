@@ -95,7 +95,7 @@ class GeoController extends Controller
     )]
     public function totalUsers()
     {
-        $totalUsers = User::where('role', 'user')->count();
+        $totalUsers = User::where('role', '!=', 'admin')->count();
         return response()->json(['totalUsers' => $totalUsers]);
     }
 }

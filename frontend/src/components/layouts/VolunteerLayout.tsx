@@ -1,16 +1,16 @@
-import { Globe, LayoutDashboard, LogOut, Menu, Users, X } from 'lucide-react';
+import { Globe, LayoutDashboard, LogOut, Menu, UserPlus, Users, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '../../store/authStore';
 
-export function AdminLayout() {
+export function VolunteerLayout() {
   const { isAuthenticated, user, logout } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  if (!isAuthenticated || user?.role !== 'admin') {
-    return <Navigate to="/admin/login" replace />;
+  if (!isAuthenticated || user?.role !== 'volunteer') {
+    return <Navigate to="/admin/login" replace />; // Or maybe a separate volunteer login?
   }
 
   const isActive = (path: string) => location.pathname === path;
@@ -19,7 +19,7 @@ export function AdminLayout() {
     <div className="flex flex-col md:flex-row h-screen bg-gray-100 overflow-hidden">
       {/* Mobile Header */}
       <div className="md:hidden bg-emerald-900 text-white p-4 flex justify-between items-center sticky top-0 z-50">
-        <h1 className="text-xl font-bn font-bold">অ্যাডমিন প্যানেল</h1>
+        <h1 className="text-xl font-bn font-bold">স্বেচ্ছাসেবক প্যানেল</h1>
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -39,26 +39,34 @@ export function AdminLayout() {
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div className="p-6 border-b border-emerald-800">
-          <h1 className="text-2xl font-bn font-bold">অ্যাডমিন প্যানেল</h1>
+          <h1 className="text-xl font-bn font-bold">স্বেচ্ছাসেবক প্যানেল</h1>
           <p className="text-sm text-emerald-300">ইসলামী আন্দোলন বাংলাদেশ</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
           <Link
-            to="/admin/dashboard"
+            to="/volunteer/dashboard"
             onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/dashboard') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/50'}`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/volunteer/dashboard') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/50'}`}
           >
             <LayoutDashboard size={20} />
             ড্যাশবোর্ড
           </Link>
           <Link
-            to="/admin/users"
+            to="/volunteer/users"
             onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/users') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/50'}`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/volunteer/users') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/50'}`}
           >
             <Users size={20} />
-            ব্যবহারকারী
+            আমার তালিকা
+          </Link>
+          <Link
+            to="/volunteer/register-user"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/volunteer/register-user') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800/50'}`}
+          >
+            <UserPlus size={20} />
+            নতুন ভোটার নিবন্ধন
           </Link>
           <Link
             to="/"
@@ -71,6 +79,10 @@ export function AdminLayout() {
         </nav>
 
         <div className="p-4 border-t border-emerald-800">
+          <div className='mb-4 px-4'>
+             <p className='text-xs text-emerald-400'>স্বেচ্ছাসেবক</p>
+             <p className='font-bold'>{user.name}</p>
+          </div>
           <button
             onClick={() => {
               logout();

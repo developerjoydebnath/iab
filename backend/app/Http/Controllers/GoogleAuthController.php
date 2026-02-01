@@ -48,6 +48,10 @@ class GoogleAuthController extends Controller
             ]);
         }
 
+        if ($user->role === 'user') {
+            return response()->json(['error' => 'Forbidden: Users are not allowed to login here.'], 403);
+        }
+
         // 🔹 Generate JWT
         $token = Auth::guard('api')->login($user);
 
