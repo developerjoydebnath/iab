@@ -10,7 +10,7 @@ export function VolunteerLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (!isAuthenticated || user?.role !== 'volunteer') {
-    return <Navigate to="/admin/login" replace />; // Or maybe a separate volunteer login?
+    return <Navigate to="/login" replace />; // Or maybe a separate volunteer login?
   }
 
   const isActive = (path: string) => location.pathname === path;

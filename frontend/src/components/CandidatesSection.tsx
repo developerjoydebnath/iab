@@ -22,7 +22,7 @@ export function CandidatesSection() {
     { value: "৩০০", label: "মোট আসন" },
     { value: "৬৪", label: "জেলা" },
     { value: "৮", label: "বিভাগ" },
-    { value: "৮৬%", label: "কভারেজ" },
+    { value: "১০০%", label: "কভারেজ" },
   ];
 
   useEffect(() => {
@@ -82,14 +82,14 @@ export function CandidatesSection() {
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-block mb-3 sm:mb-4">
             <div className="bg-emerald-100 text-emerald-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
-              জাতীয় নির্বাচন ২০২৪
+              জাতীয় নির্বাচন ২০২৬
             </div>
           </div>
           <h2 className="font-bn text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-3 sm:mb-4">
             আমাদের প্রার্থীগণ
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-emerald-700 max-w-3xl mx-auto px-4">
-            ২৫৯ টি আসনে আমাদের যোগ্য, সৎ ও দক্ষ প্রার্থীরা প্রতিদ্বন্দ্বিতা করছেন
+            ৩০০ টি আসনে আমাদের যোগ্য, সৎ ও দক্ষ প্রার্থীরা প্রতিদ্বন্দ্বিতা করছেন
           </p>
         </div>
 

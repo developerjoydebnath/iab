@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
     element: <AuthGuard><Terms /></AuthGuard>,
   },
   {
-    path: "/admin/login",
+    path: "/login",
     element: <AdminLogin />,
   },
   {
